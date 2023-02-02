@@ -1,4 +1,6 @@
 from sklearn.linear_model import LinearRegression
+import pandas as pd
+import numpy as np
 
 def count_number_of_rows(data):
   return len(data.index)
