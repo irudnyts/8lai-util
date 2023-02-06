@@ -21,8 +21,20 @@ def fit_simple_linear_regression(data, y, x):
   model.fit(x, y)
   return model
 
+def fit_linear_regression(data, y, x):
+  x = data[x].to_numpy().reshape(-1, len(x))
+  y = data[y].to_numpy()
+  model = LinearRegression()
+  model.fit(x, y)
+  return model
+
 def get_coefficients(model):
-  return [model.intercept_, model.coef_[0]]
+    coefs = model.coef_.tolist()
+    coefs.insert(0, model.intercept_)
+    return coefs
 
 def predict(model, x):
-  return model.predict(np.array([[x]]))
+  if isinstance(x, list):
+    return model.predict(np.array([x]))[0]
+  else:
+    return model.predict(np.array([[x]]))[0]
