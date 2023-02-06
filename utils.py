@@ -1,6 +1,8 @@
 from sklearn.linear_model import LinearRegression
 import pandas as pd
 import numpy as np
+import statistics
+import math
 
 def count_number_of_rows(data):
   return len(data.index)
@@ -38,3 +40,9 @@ def predict(model, x):
     return model.predict(np.array([x]))[0]
   else:
     return model.predict(np.array([[x]]))[0]
+
+def get_rmse(model, data, y, x):
+  x_length = len(x) if isinstance(x, list) else 1
+  y_pred = model.predict(data[x].to_numpy().reshape(-1, x_length))
+  y_true = data[y]
+  return math.sqrt(statistics.mean((y_pred - y_true) ** 2))
