@@ -50,7 +50,7 @@ def get_rmse(model, data, y, x):
   y_true = data[y]
   return math.sqrt(statistics.mean((y_pred - y_true) ** 2))
 
-def draw_raw(x, i):
+def draw_row(x, i):
   size = int(math.sqrt(x.shape[1]))
   image = tf.transpose(tf.reshape(tf.convert_to_tensor(x.iloc[i, :]), [size, size]))
   fig = plt.figure
