@@ -6,6 +6,7 @@ import math
 from tensorflow import keras
 import tensorflow as tf
 import matplotlib.pyplot as plt
+import sys
 
 def count_number_of_rows(data):
   return len(data.index)
@@ -57,15 +58,20 @@ def draw_row(x, i):
   plt.imshow(image, cmap='gray')
   plt.show()
 
-def fit_dense_neural_network(x, y, layers = []):
+def fit_dense_neural_network(x, y, layers = [100]):
+  if len(layers) < 1:
+    sys.exit("Specify at least one hidden layer")
   n_features = int(x.shape[1])
   n_categories = y.value.unique().shape[0]
   y = tf.convert_to_tensor(y)
   x = tf.convert_to_tensor(x)
   x = tf.divide(x, 255)
   model = keras.models.Sequential()
-  model.add(keras.layers.Dense(300, activation="relu", input_shape = [n_features]))
-  model.add(keras.layers.Dense(100, activation="relu"))
+  model.add(keras.layers.Dense(layers[0], activation="relu", input_shape = [n_features]))
+  if len(layers) > 1:
+    layers.pop(0)
+    for neurons in layers:
+      model.add(keras.layers.Dense(neurons, activation="relu"))
   model.add(keras.layers.Dense(n_categories, activation = "softmax"))
   model.compile(
       loss = keras.losses.sparse_categorical_crossentropy,
